@@ -2,6 +2,10 @@ name : ci
 
 on : push
 
+env:
+  SERVER_SECRET: ${{ secrets.SERVER_SECRET }}
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
 jobs:
   ci:
     runs-on: ubuntu-latest
