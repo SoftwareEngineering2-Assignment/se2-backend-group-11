@@ -1,9 +1,10 @@
-name : ci
+name: ci
 
-on : push
+on: push
 
 env:
   SENDGRID_API_KEY: ${{ secrets.SENDGRID_API_KEY }}
+  SERVER_SECRET: ${{ secrets.SERVER_SECRET }}
   MONGODB_URI: ${{ secrets.MONGODB_URI }}
 
 jobs:

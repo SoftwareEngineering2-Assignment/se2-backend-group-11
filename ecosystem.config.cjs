@@ -4,7 +4,7 @@ module.exports = {
       name: 'se2-backend-11',
       script: 'npm',
       args: 'start',
-      env: {PORT: 3011},
+      env: {"PORT": 3011},
     },
   ],
 };
