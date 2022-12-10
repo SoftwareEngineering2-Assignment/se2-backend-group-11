@@ -32,6 +32,6 @@ jobs:
             cd ~/se2/11/
             git clone https://${{ secrets.CLONE_TOKEN }}@github.com/SoftwareEngineering2-Assignment/se2-backend-group-11
             cd se2-backend-group-11
-            bash -ci 'npm install'
-            bash -ci 'pm2 restart se2-backend-group-11'
+            npm install
+            pm2 restart se2-backend-group-11 --update-env
     
