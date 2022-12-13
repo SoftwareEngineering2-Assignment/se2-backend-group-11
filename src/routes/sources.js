@@ -7,6 +7,7 @@ const router = express.Router();
 
 const Source = require('../models/source');
 
+// GET method route
 router.get('/sources',
   authorization,
   async (req, res, next) => {
@@ -36,6 +37,7 @@ router.get('/sources',
     }
   });
 
+// POST method route
 router.post('/create-source', 
   authorization,
   async (req, res, next) => {
@@ -63,8 +65,9 @@ router.post('/create-source',
     } catch (err) {
       return next(err.body);
     }
-  }); 
+  });
 
+// POST method route
 router.post('/change-source', 
   authorization,
   async (req, res, next) => {
@@ -98,8 +101,9 @@ router.post('/change-source',
     } catch (err) {
       return next(err.body);
     }
-  }); 
+  });
 
+// POST method route
 router.post('/delete-source', 
   authorization,
   async (req, res, next) => {
@@ -117,10 +121,15 @@ router.post('/delete-source',
     } catch (err) {
       return next(err.body);
     }
-  }); 
+  });
 
 router.post('/source',
   async (req, res, next) => {
+    /**
+     *  POST method route
+     *  This request is for finding a specific user with UserId in the database. If the user is not
+     *  found, an error is raised.
+     */
     try {
       const {name, owner, user} = req.body;
       const userId = (owner === 'self') ? user.id : owner;
@@ -151,6 +160,10 @@ router.post('/source',
 router.post('/check-sources',
   authorization,
   async (req, res, next) => {
+    /**
+     *  POST method route
+     *
+     */
     try {
       const {sources} = req.body;
       const {id} = req.decoded;

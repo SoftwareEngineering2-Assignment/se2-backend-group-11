@@ -9,6 +9,7 @@ const router = express.Router();
 const User = require('../models/user');
 const Reset = require('../models/reset');
 
+// POST method route
 router.post('/create',
   (req, res, next) => validation(req, res, next, 'register'),
   async (req, res, next) => {
@@ -32,6 +33,7 @@ router.post('/create',
     }
   });
 
+// POST method route
 router.post('/authenticate',
   (req, res, next) => validation(req, res, next, 'authenticate'),
   async (req, res, next) => {
@@ -63,6 +65,7 @@ router.post('/authenticate',
     }
   });
 
+// POST method route
 router.post('/resetpassword',
   (req, res, next) => validation(req, res, next, 'request'),
   async (req, res, next) => {
@@ -93,6 +96,7 @@ router.post('/resetpassword',
     }
   });
 
+// POST method route
 router.post('/changepassword',
   (req, res, next) => validation(req, res, next, 'change'),
   authorization,

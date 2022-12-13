@@ -41,6 +41,7 @@ const update = yup.object().shape({
 
 const change = yup.object().shape({password: password.required()});
 
+// Make authenticate, register, request, change, update available throughout the project
 module.exports = {
   authenticate, register, request, change, update
 };

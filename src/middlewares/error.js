@@ -11,6 +11,13 @@ module.exports = (error, req, res, next) =>
   /**
      * @name error
      * @description Middleware that handles errors
+     * @param error possible format:
+     * { code: <error code>,
+     *   type: <error type>,
+     *   error: <error message> }
+     * @param req HTTP request argument to the middleware function, called "req" by convention.
+     * @param res HTTP response argument to the middleware function, called "res" by convention.
+     * @param next Callback argument to the middleware function, called "next" by convention.
      */
   pipe(
     (e) => ({...e, message: e.message}),
