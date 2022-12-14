@@ -7,7 +7,7 @@ const withFormatMessageForProduction = ifElse(
   identity
 );
 
-module.exports = (error, _, res, _) => 
+module.exports = (error, res) => 
   /**
      * @name error
      * @description Middleware that handles errors

@@ -9,7 +9,7 @@ const Dashboard = require('../models/dashboard');
 const Source = require('../models/source');
 
 router.get('/statistics',
-  async (_, res, next) => {
+  async (res, next) => {
     try {
       const users = await User.countDocuments();
       const dashboards = await Dashboard.countDocuments();

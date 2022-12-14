@@ -1,6 +1,6 @@
 const {schemas: validationSchemas} = require('../utilities/validation');
 
-module.exports = async (req, _, next, schema) => {
+module.exports = async (req, next, schema) => {
   /**
      * @name validation
      * @description Middleware that tests the validity of a body given a specified schema
