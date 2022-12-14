@@ -11,6 +11,12 @@ const Source = require('../models/source');
 router.get('/dashboards',
   authorization,
   async (req, res, next) => {
+    /**
+     * GET router
+     * This function for handling GET requests to the /dashboards endpoint of an express.js server.
+     * It first uses the authorization middleware function to verify that the request is authorized.
+     * @returns a JSON Object with success value set to true.
+     */
     try {
       const {id} = req.decoded;
       const foundDashboards = await Dashboard.find({owner: mongoose.Types.ObjectId(id)});
@@ -35,6 +41,12 @@ router.get('/dashboards',
 router.post('/create-dashboard', 
   authorization,
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for creating a new dashboard.
+     * @returns A JSON Object with status 409 if a dashboard with the same name already
+     * exists, or a JSON Object with the value success set to true and the id of the new user.
+     */
     try {
       const {name} = req.body;
       const {id} = req.decoded;
@@ -62,6 +74,12 @@ router.post('/create-dashboard',
 router.post('/delete-dashboard', 
   authorization,
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for deleting a dashboard from the database.
+     * @returns A JSON Object with status 409 if dashboard has not been found, or a JSON Object
+     * with the value success set to true.
+     */
     try {
       const {id} = req.body;
 
@@ -81,6 +99,12 @@ router.post('/delete-dashboard',
 router.get('/dashboard',
   authorization,
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for finding a specific dashboard in the database.
+     *  @returns A JSON Object with status 409 if dashboard is not found, or a JSON Object with the
+     *  source's data if the source is found and the value success set to true.
+     */
     try {
       const {id} = req.query;
 
@@ -118,6 +142,12 @@ router.get('/dashboard',
 router.post('/save-dashboard', 
   authorization,
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for saving a dashboard in the database.
+     *  @returns A JSON Object with status 409 if dashboard is not found, or a JSON Object with the
+     *  value success set to true.
+     */
     try {
       const {id, layout, items, nextId} = req.body;
 
@@ -144,6 +174,12 @@ router.post('/save-dashboard',
 router.post('/clone-dashboard', 
   authorization,
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for cloning a dashboard in the database.
+     *  @returns A JSON Object with status 409 if dashboard is not found, or a JSON Object with the
+     *  value success set to true.
+     */
     try {
       const {dashboardId, name} = req.body;
 
@@ -173,6 +209,12 @@ router.post('/clone-dashboard',
 
 router.post('/check-password-needed', 
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for checking if a password is needed.
+     *  @returns A JSON Object with status 409 if specified dashboard is not found, or a JSON Object
+     *  with the value success set to true and the dashboard's data.
+     */
     try {
       const {user, dashboardId} = req.body;
       const userId = user.id;
@@ -234,6 +276,12 @@ router.post('/check-password-needed',
 
 router.post('/check-password', 
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for checking the password.
+     *  @returns A JSON Object with status 409 if specified dashboard is not found, or a JSON Object
+     *  with the value success set to true and the value correctPassword set to false.
+     */
     try {
       const {dashboardId, password} = req.body;
 
@@ -273,6 +321,12 @@ router.post('/check-password',
 router.post('/share-dashboard', 
   authorization,
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for sharing the dashboard.
+     *  @returns A JSON Object with status 409 if specified dashboard is not found, or a JSON Object
+     *  with the value success set to true.
+     */
     try {
       const {dashboardId} = req.body;
       const {id} = req.decoded;
@@ -300,6 +354,12 @@ router.post('/share-dashboard',
 router.post('/change-password', 
   authorization,
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for changing the password.
+     *  @returns A JSON Object with status 409 if specified dashboard is not found, or a JSON Object
+     *  with the value success set to true.
+     */
     try {
       const {dashboardId, password} = req.body;
       const {id} = req.decoded;
