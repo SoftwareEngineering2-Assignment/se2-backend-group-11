@@ -3,7 +3,7 @@ const {path, ifElse, isNil, startsWith, slice, identity, pipe} = require('ramda'
 
 const secret = process.env.SERVER_SECRET;
 
-module.exports = (req, res, next) => {
+module.exports = (req,_, next) => {
   /**
      * @name authorization
      * @description Middleware that checks a token's presence and validity in a request
