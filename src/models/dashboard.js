@@ -54,6 +54,14 @@ DashboardSchema.plugin(beautifyUnique);
 // Pre save hook that hashes passwords
 
 DashboardSchema.pre('save', function (next) {
+  /**
+   * The DashboardSchema.pre('save') function runs before a document is saved to the database.
+   * The function checks whether the password or name field of the document has been modified.
+   * If the password field has been modified, it sets the password field of the document
+   * to the result of running the passwordDigest() function on the value of the password field.
+   * If the name field has been modified, it sets the createdAt field of the document to the current
+   * time.
+   */
   if (this.isModified('password')) {
     this.password = passwordDigest(this.password);
   }
@@ -69,4 +77,7 @@ DashboardSchema.methods.comparePassword = function (password) {
   return comparePassword(password, this.password);
 };
 
+/**
+ * Exports a Mongoose model named dashboards that is created from the DashboardSchema schema.
+ */
 module.exports = mongoose.model('dashboards', DashboardSchema);

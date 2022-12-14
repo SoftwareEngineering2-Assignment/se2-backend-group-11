@@ -4,6 +4,14 @@ const beautifyUnique = require('mongoose-beautiful-unique-validation');
 const {constants: {expires}} = require('../utilities/validation');
 
 const ResetSchema = new mongoose.Schema({
+  /**
+   * The ResetSchema constant represents a new Mongoose schema for a password reset token. It has
+   * three fields:
+   * username: a string that is required and must be unique. It is indexed and lowercase.
+   * token: a string that is required.
+   * expireAt: a date that is the default value of the current time. It is indexed with an
+   * expiration.
+   */
   username: {
     index: true,
     type: String,
