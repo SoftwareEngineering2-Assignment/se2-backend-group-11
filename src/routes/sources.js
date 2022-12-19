@@ -10,6 +10,12 @@ const Source = require('../models/source');
 router.get('/sources',
   authorization,
   async (req, res, next) => {
+    /**
+     * GET  route
+     * This request is for getting the sources from the database.
+     * @returns A JSON Object with the source's data and a JSON Object with the value success set
+     * to true.
+     */
     try {
       const {id} = req.decoded;
       const foundSources = await Source.find({owner: mongoose.Types.ObjectId(id)});
@@ -39,6 +45,12 @@ router.get('/sources',
 router.post('/create-source', 
   authorization,
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for creating a new source.
+     * @returns A JSON Object with status 409 if a source with the same name already exists, or a
+     * JSON Object with the value success set to true.
+     */
     try {
       const {name, type, url, login, passcode, vhost} = req.body;
       const {id} = req.decoded;
@@ -63,11 +75,17 @@ router.post('/create-source',
     } catch (err) {
       return next(err.body);
     }
-  }); 
+  });
 
 router.post('/change-source', 
   authorization,
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for changing the information of a source.
+     * @returns A JSON Object with status 409 if the specific source is not found or a source with
+     * the same name have been found, or a JSON Object with the value success set to true.
+     */
     try {
       const {id, name, type, url, login, passcode, vhost} = req.body;
       const foundSource = await Source.findOne({_id: mongoose.Types.ObjectId(id), owner: mongoose.Types.ObjectId(req.decoded.id)});
@@ -98,11 +116,17 @@ router.post('/change-source',
     } catch (err) {
       return next(err.body);
     }
-  }); 
+  });
 
 router.post('/delete-source', 
   authorization,
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for deleting a source.
+     * @returns A JSON Object with status 409 if the source is not found, or a JSON Object with the
+     * value success set to true.
+     */
     try {
       const {id} = req.body;
 
@@ -117,10 +141,16 @@ router.post('/delete-source',
     } catch (err) {
       return next(err.body);
     }
-  }); 
+  });
 
 router.post('/source',
   async (req, res, next) => {
+    /**
+     *  POST route
+     *  This request is for finding a specific source from user with UserId in the database.
+     *  @returns A JSON Object with status 409 if source is not found, or a JSON Object with the
+     *  source's data if the source is found.
+     */
     try {
       const {name, owner, user} = req.body;
       const userId = (owner === 'self') ? user.id : owner;
@@ -151,6 +181,11 @@ router.post('/source',
 router.post('/check-sources',
   authorization,
   async (req, res, next) => {
+    /**
+     *  POST route
+     * This request is for adding a non-existing source in the database. Tries to find the source
+     * and if the source is not found, then it is added to the database.
+     */
     try {
       const {sources} = req.body;
       const {id} = req.decoded;
@@ -176,8 +211,8 @@ router.post('/check-sources',
           vhost: '',
           owner: mongoose.Types.ObjectId(id)
         }).save();
-      } 
-      
+      }
+
       return res.json({
         success: true,
         newSources

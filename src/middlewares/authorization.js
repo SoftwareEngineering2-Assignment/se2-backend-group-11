@@ -7,6 +7,10 @@ module.exports = (req, res, next) => {
   /**
      * @name authorization
      * @description Middleware that checks a token's presence and validity in a request
+     * @param req HTTP request argument to the middleware function, called "req" by convention.
+     * @param res HTTP response argument to the middleware function, called "res" by convention.
+     * @param next Callback argument to the middleware function, called "next" by convention.
+     * @return next Callback argument to the middleware function, called "next" by convention.
     */
   pipe(
     (r) =>

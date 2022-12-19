@@ -12,6 +12,12 @@ const Reset = require('../models/reset');
 router.post('/create',
   (req, res, next) => validation(req, res, next, 'register'),
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for creating a new user.
+     * @returns A JSON Object with status 409 if a user with the same e-mail or username already
+     * exists, or a JSON Object with the value success set to true and the id of the new user.
+     */
     const {username, password, email} = req.body;
     try {
       const user = await User.findOne({$or: [{username}, {email}]});
@@ -35,6 +41,12 @@ router.post('/create',
 router.post('/authenticate',
   (req, res, next) => validation(req, res, next, 'authenticate'),
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for authenticating a user.
+     * @returns A JSON Object with status 401 if the user is not found or the password doesn't
+     * match, or a JSON Object with the user's data.
+     */
     const {username, password} = req.body;
     try {
       const user = await User.findOne({username}).select('+password');
@@ -66,6 +78,12 @@ router.post('/authenticate',
 router.post('/resetpassword',
   (req, res, next) => validation(req, res, next, 'request'),
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for resetting the password of a user.
+     * @returns A JSON Object with status 404 if the user is not found, or a JSON Object with status
+     * true when the recovery email has been sent.
+     */
     const {username} = req.body;
     try {
       const user = await User.findOne({username});
@@ -97,6 +115,13 @@ router.post('/changepassword',
   (req, res, next) => validation(req, res, next, 'change'),
   authorization,
   async (req, res, next) => {
+    /**
+     * POST route
+     * This request is for changing the password of a user.
+     * @returns A JSON Object with status 404 if the user is not found, or a JSON Object with status
+     * 410 if the reset token has expired, or a JSON Object with status true when the password has
+     * been changed successfully.
+     */
     const {password} = req.body;
     const {username} = req.decoded;
     try {

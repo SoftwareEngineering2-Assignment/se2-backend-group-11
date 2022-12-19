@@ -3,8 +3,12 @@ const logo = `${process.env.SERVER_URI}/logo.png`;
 const link = (token) => `${baseUrl}/reset-password?token=${token}`;
 
 /**
- * Creates and returns an email with a password reset token. The parameters given are the
- * platform's logo and the reset token needed for chaning the password.
+ * @description Creates and returns an  email that is sent to users who request to reset their
+ * password on a platform. The email includes a link with a reset password token, which the user
+ * can use to reset their password. The function takes a token argument, which is the reset password
+ * token, and uses it to construct the link that is included in the email.
+ * @param logo the platform's logo (logo.png)
+ * @param token the reset token needed for changing the password.
  */
 
 module.exports = (token) => (`

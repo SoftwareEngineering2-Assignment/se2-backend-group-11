@@ -9,16 +9,28 @@ const listen = require('test-listen');
 const app = require('../src/index');
 const {jwtSign} = require('../src/utilities/authentication/helpers');
 
+/**
+ * This function is used to set up the server and make it listen on a random port. It also creates
+ * a got client with http2 and json response type, and sets the prefixUrl to the url of the server.
+ */
 test.before(async (t) => {
   t.context.server = http.createServer(app);
   t.context.prefixUrl = await listen(t.context.server);
   t.context.got = got.extend({http2: true, throwHttpErrors: false, responseType: 'json', prefixUrl: t.context.prefixUrl});
 });
 
+/**
+ * This function is used to clean up after the tests have been run. It closes the server.
+ */
 test.after.always((t) => {
   t.context.server.close();
 });
 
+/**
+ * This function is a test that makes a GET request to the /statistics endpoint of the server and
+ * checks that the response has the correct body and status code. It expects the sources property
+ * in the response body to be 0, the success property to be true, and the status code to be 200.
+ */
 test('GET /statistics returns correct response and status code', async (t) => {
   const {body, statusCode} = await t.context.got('general/statistics');
   t.is(body.sources, 0);
@@ -26,6 +38,11 @@ test('GET /statistics returns correct response and status code', async (t) => {
   t.is(statusCode, 200);
 });
 
+/**
+ * This function is a test that makes a GET request to the /sources endpoint of the server and
+ * checks that the response has the correct status code. It expects the status code to be 200. The
+ * request includes a token query parameter with a JWT signed using the id of 1.
+ */
 test('GET /sources returns correct response and status code', async (t) => {
   const token = jwtSign({id: 1});
   const {statusCode} = await t.context.got(`sources/sources?token=${token}`);

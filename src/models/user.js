@@ -6,6 +6,14 @@ const {constants: {min}} = require('../utilities/validation');
 
 mongoose.pluralize(null);
 
+/**
+ * This function creates a new Mongoose schema for a user with the following properties:
+ * email: a string that must be unique, required, lowercase, and indexed.
+ * username: a string that must be unique, required, and indexed.
+ * password: a string that must be required, have a minimum length specified by min, and not be
+ * included in the default selection of fields.
+ * registrationDate: a number representing the date when the user registered.
+ */
 const UserSchema = new mongoose.Schema(
   {
     email: {
@@ -35,8 +43,14 @@ const UserSchema = new mongoose.Schema(
 
 UserSchema.plugin(beautifyUnique);
 
-// Pre save hook that hashes passwords
-
+/**
+ * This function is a Mongoose middleware that is run before a user document is saved to the
+ * database. It does the following:
+ * If the user's password has been modified, it hashes the password using the passwordDigest
+ * function.
+ * If the user's email or username has been modified, it sets the registrationDate to the current
+ * time.
+ */
 UserSchema.pre('save', function (next) {
   if (this.isModified('password')) {
     this.password = passwordDigest(this.password);
