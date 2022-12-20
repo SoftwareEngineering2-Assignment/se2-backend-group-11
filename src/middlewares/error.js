@@ -16,6 +16,7 @@ const withFormatMessageForProduction = ifElse(
  *   error: <error message> }
  * @param res HTTP response argument to the middleware function, called "res" by convention.
  */
+// eslint-disable-next-line no-unused-vars
 module.exports = (error, _, res, __) =>
   pipe(
     (e) => ({...e, message: e.message}),
