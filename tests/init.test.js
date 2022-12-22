@@ -48,3 +48,15 @@ test('GET /sources returns correct response and status code', async (t) => {
   const {statusCode} = await t.context.got(`sources/sources?token=${token}`);
   t.is(statusCode, 200);
 });
+
+/**
+ * This function is a test that makes a GET request to the /dashboards endpoint of the server and
+ * checks that the response has the correct status code. It expects the status code to be 200 and the success property to be true.
+ * The request includes a token query parameter with a JWT signed using the id of 1.
+ */
+test('GET /dashboards returns correct response and status code', async (t) => {
+  const token = jwtSign({id: 1});
+  const {statusCode, body} = await t.context.got(`dashboards/dashboards?token=${token}`);
+  t.is(statusCode, 200);
+  t.assert(body.success);
+});
