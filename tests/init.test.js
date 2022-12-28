@@ -6,6 +6,7 @@ const test = require('ava').default;
 const got = require('got');
 const listen = require('test-listen');
 
+
 const app = require('../src/index');
 const {jwtSign} = require('../src/utilities/authentication/helpers');
 
@@ -17,7 +18,7 @@ test.before(async (t) => {
   t.context.server = http.createServer(app);
   t.context.prefixUrl = await listen(t.context.server);
   t.context.got = got.extend({http2: true, throwHttpErrors: false, responseType: 'json', prefixUrl: t.context.prefixUrl});
-  t.context.request = request;
+  
 });
 
 /**
