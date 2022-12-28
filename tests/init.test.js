@@ -5,6 +5,7 @@ const http = require('node:http');
 const test = require('ava').default;
 const got = require('got');
 const listen = require('test-listen');
+const request= require('request');
 
 const app = require('../src/index');
 const {jwtSign} = require('../src/utilities/authentication/helpers');
@@ -17,6 +18,7 @@ test.before(async (t) => {
   t.context.server = http.createServer(app);
   t.context.prefixUrl = await listen(t.context.server);
   t.context.got = got.extend({http2: true, throwHttpErrors: false, responseType: 'json', prefixUrl: t.context.prefixUrl});
+  t.context.request = request;
 });
 
 /**
@@ -36,6 +38,7 @@ test('GET /statistics returns correct response and status code', async (t) => {
   t.is(body.sources, 0);
   t.assert(body.success);
   t.is(statusCode, 200);
+  t.is(body.views, 0);
 });
 
 /**
@@ -60,3 +63,17 @@ test('GET /dashboards returns correct response and status code', async (t) => {
   t.is(statusCode, 200);
   t.assert(body.success);
 });
+
+
+
+
+test('GET /test-url returns correct response and status code', async (t) => {
+  const {statusCode} = await t.context.got('general/test-url');
+  t.is(statusCode, 200);
+});
+
+
+
+
+
+
