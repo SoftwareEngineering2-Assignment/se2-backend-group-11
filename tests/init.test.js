@@ -6,9 +6,12 @@ const test = require('ava').default;
 const got = require('got');
 const listen = require('test-listen');
 
-
 const app = require('../src/index');
 const {jwtSign} = require('../src/utilities/authentication/helpers');
+const { post } = require('request');
+const router = require('../src/routes');
+const { expectCt } = require('helmet');
+
 
 /**
  * This function is used to set up the server and make it listen on a random port. It also creates
@@ -26,6 +29,7 @@ test.before(async (t) => {
  */
 test.after.always((t) => {
   t.context.server.close();
+
 });
 
 /**
@@ -65,12 +69,79 @@ test('GET /dashboards returns correct response and status code', async (t) => {
 });
 
 
-
-
+/**
+ * This function is a test that makes a GET request to the '/test-url' endpoint returns a correct response and status code. 
+ * It expects the status code to be 200 and the success property to be true.
+ */
 test('GET /test-url returns correct response and status code', async (t) => {
-  const {statusCode} = await t.context.got('general/test-url');
+  const {statusCode, body} = await t.context.got('general/test-url');
   t.is(statusCode, 200);
+  t.is(body.active, false);
+  t.is(body.status, 500);
 });
+
+
+/**
+ * This function is a test that makes a GET request to the endpoint 
+ * '/test-url-request' returns a correct response and status code.  
+ */
+test('GET /test-url-request returns correct response and status code', async (t) => {
+  const {statusCode, body} = await t.context.got('general/test-url-request');
+  t.is(statusCode, 200);
+  t.is(body.status, 500);
+});
+
+
+test('Error handling in /test-url-request', async (t) => {
+  // Try to make a request to an invalid URL
+  const invalidUrl = 'http://invalid.url.com';
+  const {statusCode, body} = await t.context.got('general/test-url-request', {
+      searchParams: {
+        url: invalidUrl,
+        type: 'GET'
+      }
+    });
+   
+    t.is(statusCode, 200);
+    t.is(body.response.status, undefined);
+  
+});
+
+
+test('Test for PUT in /test-url-request', async (t) => {
+  // Try to make a request to an invalid URL
+  const {statusCode, body} = await t.context.got('general/test-url-request', {
+      searchParams: {
+        url: 'general/test-url-request/GET',
+        type: 'PUT'
+      }
+    });
+   
+    t.is(statusCode, 200);
+    t.is(body.response.status, undefined);
+  
+});
+
+
+test('Test for POST in /test-url-request', async (t) => {
+  // Try to make a request to an invalid URL
+  const {statusCode, body} = await t.context.got('general/test-url-request', {
+      searchParams: {
+        url: 'general/test-url-request/POST',
+        type: 'POST'
+      }
+    });
+   
+    t.is(statusCode, 200);
+    t.is(body.response.status, undefined);
+  
+});
+
+
+
+
+
+
 
 
 
