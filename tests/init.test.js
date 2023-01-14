@@ -8,9 +8,7 @@ const listen = require('test-listen');
 
 const app = require('../src/index');
 const {jwtSign} = require('../src/utilities/authentication/helpers');
-const { post } = require('request');
-const router = require('../src/routes');
-const { expectCt } = require('helmet');
+
 
 
 /**
