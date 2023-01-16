@@ -5,6 +5,7 @@ const http = require('node:http');
 const test = require('ava').default;
 const got = require('got');
 const listen = require('test-listen');
+const axios = require('axios');
 
 const app = require('../src/index');
 const {jwtSign} = require('../src/utilities/authentication/helpers');
@@ -129,10 +130,23 @@ test('Test for POST in /test-url-request', async (t) => {
 
 test('POST /dashboards returns correct response and status code', async (t) => {
   const token = jwtSign({id: 1});
-  const {statusCode, body} = await t.context.got(`dashboards/dashboards?token=${token}`);
-  t.is(statusCode, 200);
-  t.assert(body.success);
+  const { body} = await t.context.got(`dashboards/create-dashboard?token=${token}`);
+  const payload = {name: "dashboard1"}
+  
+  const newDashboard = await axios.post(`http://localhost:3000/dashboards/create-dashboard?token=${token}`, payload);
+
+  t.is(newDashboard.status, 200);
+
+ 
 });
+
+
+
+
+
+
+
+
 
 // Test for sources.js
 
