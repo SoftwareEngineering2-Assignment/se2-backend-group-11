@@ -229,7 +229,15 @@ test('POST /change-source returns correct response and status code', async (t) =
 
 });
 
+test('POST /source returns correct response and status code', async (t) => {
+  const token = jwtSign({id: 1});
+  const payload = {id: "63c68d4dfce3c244c79d2112"}
+  
+  const newSource = await axios.post(`http://localhost:3000/sources/source?token=${token}`, payload);
+  
+  t.is(newSource.status, 200);
 
+});
 
 
 
