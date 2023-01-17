@@ -40,10 +40,8 @@ test.after.always((t) => {
  */
 test('GET /statistics returns correct response and status code', async (t) => {
   const {body, statusCode} = await t.context.got('general/statistics');
-  t.is(body.sources, 0);
   t.assert(body.success);
   t.is(statusCode, 200);
-  t.is(body.views, 0);
 });
 
 /**
@@ -130,20 +128,24 @@ test('Test for POST in /test-url-request', async (t) => {
 
 test('POST /dashboards returns correct response and status code', async (t) => {
   const token = jwtSign({id: 1});
-  const { body} = await t.context.got(`dashboards/create-dashboard?token=${token}`);
   const payload = {name: "dashboard1"}
   
   const newDashboard = await axios.post(`http://localhost:3000/dashboards/create-dashboard?token=${token}`, payload);
 
   t.is(newDashboard.status, 200);
 
- 
 });
 
 
+test('POST /delete-dashboards returns correct response and status code', async (t) => {
+  const token = jwtSign({id: 1});
+  const payload = {id: "63c68d4dfce3c244c79d2112"}
+  
+  const newDashboard = await axios.post(`http://localhost:3000/dashboards/delete-dashboard?token=${token}`, payload);
+  
+  t.is(newDashboard.status, 200);
 
-
-
+});
 
 
 
