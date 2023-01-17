@@ -164,6 +164,16 @@ test('GET /dashboard returns correct response and status code', async (t) => {
   t.is(statusCode, 200);
 });
 
+test('POST /share-dashboard returns correct response and status code', async (t) => {
+  const token = jwtSign({id: 1});
+  const payload = {id: "63c68d4dfce3c244c79d2112"}
+  
+  const newDashboard = await axios.post(`http://localhost:3000/dashboards/share-dashboard?token=${token}`, payload);
+  
+  t.is(newDashboard.status, 200);
+
+});
+
 
 // Test for sources.js
 
