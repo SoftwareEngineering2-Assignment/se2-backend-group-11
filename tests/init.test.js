@@ -158,6 +158,13 @@ test('POST /save-dashboards returns correct response and status code', async (t)
 });
 
 
+test('GET /dashboard returns correct response and status code', async (t) => {
+  const token = jwtSign({id: 1});
+  const {statusCode} = await t.context.got(`dashboards/dashboard?token=${token}`);
+  t.is(statusCode, 200);
+});
+
+
 // Test for sources.js
 
 /**
