@@ -178,6 +178,11 @@ test('GET /dashboard returns correct response and status code', async (t) => {
   t.is(statusCode, 200);
 });
 
+/**
+ * This function is a test that makes a POST request that creates a new source. It expects the status code to be 200. The
+ * request includes a token query parameter with a JWT signed using the id of 1.
+ */
+
 test('POST /sourses returns correct response and status code', async (t) => {
   const token = jwtSign({id: 1});
   // const { body} = await t.context.got(dashboards/create-dashboard?token=${token});
@@ -188,8 +193,6 @@ test('POST /sourses returns correct response and status code', async (t) => {
   t.is(newSource.status, 200);
  
 }); 
-
-
 
 
 
