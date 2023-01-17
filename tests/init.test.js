@@ -195,7 +195,6 @@ test('POST /share-dashboard returns correct response and status code', async (t)
 
 test('POST /sourses returns correct response and status code', async (t) => {
   const token = jwtSign({id: 1});
-  // const { body} = await t.context.got(dashboards/create-dashboard?token=${token});
   const payload = {name: "source1"}
   
   const newSource = await axios.post(`http://localhost:3000/sources/create-source?token=${token}`, payload);
@@ -220,7 +219,15 @@ test('POST /delete-source returns correct response and status code', async (t) =
 
 }); 
 
+test('POST /change-source returns correct response and status code', async (t) => {
+  const token = jwtSign({id: 1});
+  const payload = {id: "63c68d4dfce3c244c79d2112"}
+  
+  const newSource = await axios.post(`http://localhost:3000/sources/change-source?token=${token}`, payload);
+  
+  t.is(newSource.status, 200);
 
+});
 
 
 
