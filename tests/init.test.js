@@ -195,6 +195,20 @@ test('POST /sourses returns correct response and status code', async (t) => {
 }); 
 
 
+/**
+ * This function is a test that makes a POST request and chechks if thw source has been deleted successfully. It expects the status code to be 200. The
+ * request includes a token query parameter with a JWT signed using the id of 1.
+ */
+
+test('POST /delete-source returns correct response and status code', async (t) => {
+  const token = jwtSign({id: 1});
+  const payload = {id: "63c68d4dfce3c244c79d2112"}
+  
+  const newSource = await axios.post(`http://localhost:3000/sources/delete-source?token=${token}`, payload);
+  
+  t.is(newSource.status, 200);
+
+}); 
 
 
 
