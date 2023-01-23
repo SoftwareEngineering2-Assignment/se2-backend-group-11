@@ -254,5 +254,30 @@ test('validation middleware passes with valid input', async (t) => {
 
 });
 
+test('Test validation middleware with invalid request body', async (t) => {
+  const Req = {
+    body: {
+      password: 'abc'
+    }
+  };
 
+  const Res = {};
+  const Next = (err) => {
+    t.is(err.message, 'Validation Error: password must be at least 5 characters');
+    t.is(err.status, 400);
+  };
+
+  const schema = 'authenticate';
+  const validationSchemas = {
+    authenticate: {
+      validate: (body) => {
+        if (!body.password || body.password.length < 5) {
+          throw new Error('Validation Error: password must be at least 5 characters');
+        }
+      }
+    }
+  };
+
+  await validation(Req, Res, Next, schema, validationSchemas);
+});
 
