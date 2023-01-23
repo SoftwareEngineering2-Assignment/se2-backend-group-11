@@ -9,7 +9,7 @@ const axios = require('axios');
 
 const app = require('../src/index');
 const {jwtSign} = require('../src/utilities/authentication/helpers');
-
+const validation = require('../src/middlewares/validation');
 
 
 /**
@@ -239,6 +239,20 @@ test('POST /source returns correct response and status code', async (t) => {
 
 });
 
+
+
+// Test for validation.js
+
+test('validation middleware passes with valid input', async (t) => {
+  const Req = {body: {username: 'user', password: 'password'}};
+  const Res = {};
+  const Next = (err) => {
+    if (err) throw err;
+  }
+  const error = await t.notThrows(() => validation(Req, Res, Next, 'authenticate'));
+  t.is(error, undefined);
+
+});
 
 
 
