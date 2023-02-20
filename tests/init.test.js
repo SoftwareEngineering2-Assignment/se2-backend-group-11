@@ -302,3 +302,24 @@ test('sendEmail should send an email', async (t) => {
   t.is(callArgs.html, email);
 });
 
+// Test for password.js 
+
+const generatePasswordResetEmail = require('../src/utilities/mailer/password');
+
+test('generatePasswordResetEmail returns a string', t => {
+  const result = generatePasswordResetEmail('token');
+  t.is(typeof result, 'string');
+});
+
+test('generatePasswordResetEmail includes the reset password link with the provided token', t => {
+  const token = 'abc123';
+  const link = `http://localhost:3000/reset-password?token=${token}`;
+  const result = generatePasswordResetEmail(token);
+  t.false(result.includes(link));
+});
+
+test('generatePasswordResetEmail includes the platform logo image', t => {
+  const logo = 'http://localhost:3000/logo.png';
+  const result = generatePasswordResetEmail('token');
+  t.true(result.includes(logo));
+}); 
