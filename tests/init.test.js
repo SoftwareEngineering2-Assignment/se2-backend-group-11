@@ -20,6 +20,7 @@ test.before(async (t) => {
   t.context.server = http.createServer(app);
   t.context.prefixUrl = await listen(t.context.server);
   t.context.got = got.extend({http2: true, throwHttpErrors: false, responseType: 'json', prefixUrl: t.context.prefixUrl});
+  sinon.stub(sgMail, 'send').resolves({});
   
 });
 
@@ -28,6 +29,7 @@ test.before(async (t) => {
  */
 test.after.always((t) => {
   t.context.server.close();
+  sgMail.send.restore();
 
 });
 
@@ -279,5 +281,24 @@ test('Test validation middleware with invalid request body', async (t) => {
   };
 
   await validation(Req, Res, Next, schema, validationSchemas);
+});
+
+
+// Test for send.js 
+const sinon = require('sinon');
+const sgMail = require('@sendgrid/mail');
+const sendEmail = require('../src/utilities/mailer/send');
+
+test('sendEmail should send an email', async (t) => {
+  const to = 'test@example.com';
+  const subject = 'Test email';
+  const email = '<p>This is a test email.</p>';
+  await sendEmail(to, subject, email);
+  t.true(sgMail.send.calledOnce);
+  const callArgs = sgMail.send.getCall(0).args[0];
+  t.is(callArgs.from, 'karanikio@auth.gr');
+  t.is(callArgs.to, to);
+  t.is(callArgs.subject, subject);
+  t.is(callArgs.html, email);
 });
 
