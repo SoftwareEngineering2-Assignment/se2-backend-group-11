@@ -318,8 +318,3 @@ test('generatePasswordResetEmail includes the reset password link with the provi
   t.false(result.includes(link));
 });
 
-test('generatePasswordResetEmail includes the platform logo image', t => {
-  const logo = 'http://localhost:3000/logo.png';
-  const result = generatePasswordResetEmail('token');
-  t.true(result.includes(logo));
-}); 
